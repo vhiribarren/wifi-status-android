@@ -22,9 +22,13 @@ import android.content.ComponentName;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.ToggleButton;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Needed to displays text as HTML with clickable links
+        final TextView authorText = (TextView)findViewById(R.id.author_label);
+        authorText.setText(Html.fromHtml(getResources().getString(R.string.app_author)));
+        authorText.setMovementMethod(LinkMovementMethod.getInstance());
 
         final ToggleButton toggleButton = (ToggleButton)findViewById(R.id.enableSwitch);
         final ComponentName receiver = new ComponentName(this, WifiStateNotification.class);

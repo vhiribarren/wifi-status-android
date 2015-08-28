@@ -8,16 +8,21 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:text="@string/app_description"
-        android:id="@+id/descriptionText"
-        android:layout_weight="1" />
+        android:id="@+id/descriptionText" />
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:layout_height="0dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_weight="1">
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/enableSwitch" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,11 +30,12 @@
             android:text="@string/switch_label"
             android:id="@+id/enableLabel" />
 
-        <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/enableSwitch" />
-
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/author_label"
+        android:text="@string/app_author" />
 
 </LinearLayout>

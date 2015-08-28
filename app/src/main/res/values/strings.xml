@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">WiFi Status</string>
-    <string name="switch_label">New Text</string>
-    <string name="app_description">New Text</string>
+    <string name="switch_label">Enable/Disable Notification</string>
+    <string name="app_author"><![CDATA[
+    <p>
+        ©2015 Vincent Hiribarren<br>
+        Twitter: @vhiribarren<br>
+        License: <a href="http://opensource.org/licenses/GPL-3.0">GNU GPL v3</a><br>
+        Code: <a href="https://github.com/vhiribarren/wifi-status-android">https://github.com/vhiribarren/wifi-status-android</a>
+    </p>
+    ]]></string>
+    <string name="app_description">Displays as a notification on which Wi-Fi access point your device is connected.</string>
 </resources>
