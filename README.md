@@ -6,6 +6,8 @@ With modern Android (Lollipop and above version) it is not very useful since the
 already displayed in the bar. However it can be useful for older Android version, or if you
 want a quicker access to the current access point name.
 
+![Screenshot 1](material/screenshot1-mini.png) ![Screenshot 2](material/screenshot2-mini.png)
+
 From a developer point of view, the app also demonstrates:
 
 - usage of wifi status receiver in the manifest file
