@@ -24,7 +24,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -98,7 +97,7 @@ public class WifiStateNotification extends BroadcastReceiver {
                 .setContentIntent(PendingIntent.getActivity(context,0,activityIntent,0))
                 .setOngoing(true)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setPriority(Notification.PRIORITY_MIN)
+                .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setContentTitle("Wi-Fi: "+wifiInfo.getSSID());
         Notification notification = builder.build();
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
