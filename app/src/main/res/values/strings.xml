@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">WiFi Status</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="switch_label">New Text</string>
+    <string name="app_description">New Text</string>
 </resources>

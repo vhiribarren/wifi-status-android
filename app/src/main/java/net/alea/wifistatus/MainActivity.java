@@ -18,17 +18,61 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package net.alea.wifistatus;
 
+import android.content.ComponentName;
+import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.ToggleButton;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final ToggleButton toggleButton = (ToggleButton)findViewById(R.id.enableSwitch);
+        final ComponentName receiver = new ComponentName(this, WifiStateNotification.class);
+        final PackageManager pm = this.getPackageManager();
+
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.d(TAG, "Change of button state: " + isChecked);
+                if (isChecked) {
+                    pm.setComponentEnabledSetting(receiver,
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP);
+                    WifiStateNotification.refreshWifiNotification(MainActivity.this);
+                }
+                else {
+                    pm.setComponentEnabledSetting(receiver,
+                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                            PackageManager.DONT_KILL_APP);
+                    WifiStateNotification.removeWifiNotification(MainActivity.this);
+                }
+            }
+        });
+
+        int componentState = pm.getComponentEnabledSetting(receiver);
+        switch (componentState) {
+            case PackageManager.COMPONENT_ENABLED_STATE_DEFAULT:
+            case PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
+                WifiStateNotification.refreshWifiNotification(this);
+                toggleButton.setChecked(true);
+                break;
+            case PackageManager.COMPONENT_ENABLED_STATE_DISABLED:
+                toggleButton.setChecked(false);
+                break;
+            default:
+        }
     }
 
 }
