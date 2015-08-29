@@ -16,6 +16,10 @@ From a developer point of view, the app also demonstrates:
 - how to not display the icon of the notification in the status bar
 - no service needed to monitor and react to wifi connections change
 
+## Play Store
+
+For test, easiness and courtesy, [the app is available on the Play Store](https://play.google.com/store/apps/details?id=net.alea.wifistatus).
+
 ## License and author
 
 Wifi Status for Android - Check Wifi status in notification bar
