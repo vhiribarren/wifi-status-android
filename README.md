@@ -15,6 +15,7 @@ From a developer point of view, the app also demonstrates:
 - how to persist a notification
 - how to not display the icon of the notification in the status bar
 - no service needed to monitor and react to wifi connections change
+- how to check Android API level
 
 ## Play Store
 
