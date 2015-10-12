@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "net.alea.wifistatus"
-        minSdkVersion 11
+        minSdkVersion 1
         targetSdkVersion 23
         versionCode 3
         versionName "1.2.0"

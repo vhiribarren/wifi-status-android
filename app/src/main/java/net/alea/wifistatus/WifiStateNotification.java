@@ -31,6 +31,8 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.util.Log;
 
+import java.lang.reflect.Method;
+
 
 public class WifiStateNotification extends BroadcastReceiver {
 
@@ -93,22 +95,42 @@ public class WifiStateNotification extends BroadcastReceiver {
             Log.w(TAG, "No wifi connection, leaving");
             return;
         }
+
+        String contentTitle = "Wi-Fi: " + wifiInfo.getSSID();
         Intent activityIntent = new Intent(context, MainActivity.class);
-        Notification.Builder builder = new Notification.Builder(context)
-                .setContentIntent(PendingIntent.getActivity(context, 0, activityIntent, 0))
-                .setOngoing(true)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Wi-Fi: " + wifiInfo.getSSID());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            builder.setPriority(Notification.PRIORITY_MIN);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
+        Notification notification = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            Notification.Builder builder = new Notification.Builder(context)
+                    .setContentIntent(pendingIntent)
+                    .setOngoing(true)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(contentTitle);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                builder.setPriority(Notification.PRIORITY_MIN);
+                notification = builder.build();
+            }
+            // Condition kept to avoid error in Android Studio without using @TargetApi
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                notification = builder.getNotification();
+            }
         }
-        Notification notification;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            notification = builder.getNotification();
-        }
+        // For very old Android before 3.x
         else {
-            notification = builder.build();
+            notification = new Notification();
+            notification.flags |= Notification.FLAG_ONGOING_EVENT;
+            notification.icon = R.mipmap.ic_launcher;
+            try {
+                // try to call "setLatestEventInfo" if available
+                Method deprecatedMethod = notification.getClass().getMethod("setLatestEventInfo", Context.class, CharSequence.class, CharSequence.class, PendingIntent.class);
+                deprecatedMethod.invoke(notification, context, contentTitle, null, pendingIntent);
+            } catch (Exception e) {
+                Log.w(TAG, "Method not found", e);
+            }
+            // Note: minimum priority does not exist before API 16
         }
+
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIF_ID, notification);
     }
