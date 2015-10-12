@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package net.alea.wifistatus;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -27,7 +28,7 @@ import android.content.Intent;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.support.v4.app.NotificationCompat;
+import android.os.Build;
 import android.util.Log;
 
 
@@ -93,13 +94,21 @@ public class WifiStateNotification extends BroadcastReceiver {
             return;
         }
         Intent activityIntent = new Intent(context, MainActivity.class);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-                .setContentIntent(PendingIntent.getActivity(context,0,activityIntent,0))
+        Notification.Builder builder = new Notification.Builder(context)
+                .setContentIntent(PendingIntent.getActivity(context, 0, activityIntent, 0))
                 .setOngoing(true)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setPriority(NotificationCompat.PRIORITY_MIN)
-                .setContentTitle("Wi-Fi: "+wifiInfo.getSSID());
-        Notification notification = builder.build();
+                .setContentTitle("Wi-Fi: " + wifiInfo.getSSID());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            builder.setPriority(Notification.PRIORITY_MIN);
+        }
+        Notification notification;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            notification = builder.getNotification();
+        }
+        else {
+            notification = builder.build();
+        }
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIF_ID, notification);
     }
