@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2015-11-07
+### Added
+- Displays of IPv4 address
+
 ## [1.2.0] - 2015-10-12
 ### Changed
 - Completely removed dependencies, final APK is around 20Ko
@@ -13,7 +17,8 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2015-08-28
 - First working version
 
-[unreleased]: https://github.com/vhiribarren/wifi-status-android/compare/1.2.0...master
+[unreleased]: https://github.com/vhiribarren/wifi-status-android/compare/1.3.0...master
+[1.3.0]: https://github.com/vhiribarren/wifi-status-android/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/vhiribarren/wifi-status-android/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/vhiribarren/wifi-status-android/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/vhiribarren/wifi-status-android/compare/12d0600...1.0.0
