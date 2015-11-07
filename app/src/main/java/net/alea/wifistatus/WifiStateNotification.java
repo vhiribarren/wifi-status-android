@@ -96,7 +96,10 @@ public class WifiStateNotification extends BroadcastReceiver {
             return;
         }
 
+        int ip = wifiInfo.getIpAddress();
         String contentTitle = "Wi-Fi: " + wifiInfo.getSSID();
+        String contentText = String.format("IPv4: %d.%d.%d.%d",
+                (ip & 0xff), (ip >> 8 & 0xff), (ip >> 16 & 0xff), (ip >> 24 & 0xff));
         Intent activityIntent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
         Notification notification = null;
@@ -106,6 +109,7 @@ public class WifiStateNotification extends BroadcastReceiver {
                     .setContentIntent(pendingIntent)
                     .setOngoing(true)
                     .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentText(contentText)
                     .setContentTitle(contentTitle);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 builder.setPriority(Notification.PRIORITY_MIN);
@@ -124,7 +128,7 @@ public class WifiStateNotification extends BroadcastReceiver {
             try {
                 // try to call "setLatestEventInfo" if available
                 Method deprecatedMethod = notification.getClass().getMethod("setLatestEventInfo", Context.class, CharSequence.class, CharSequence.class, PendingIntent.class);
-                deprecatedMethod.invoke(notification, context, contentTitle, null, pendingIntent);
+                deprecatedMethod.invoke(notification, context, contentTitle, contentText, pendingIntent);
             } catch (Exception e) {
                 Log.w(TAG, "Method not found", e);
             }
