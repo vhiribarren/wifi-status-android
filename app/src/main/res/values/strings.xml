@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">WiFi Status</string>
     <string name="switch_label">Enable/Disable Notification</string>
     <string name="app_author"><![CDATA[
     <p>
