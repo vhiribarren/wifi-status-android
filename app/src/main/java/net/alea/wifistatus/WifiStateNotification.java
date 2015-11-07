@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package net.alea.wifistatus;
 
-import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -96,6 +95,10 @@ public class WifiStateNotification extends BroadcastReceiver {
             return;
         }
 
+        /* NetworkInterface should be use to also take into account IPv6 cases,
+         * but requires android.permission.INTERNET and  android.permission.ACCESS_NETWORK_STATE
+         * and possibly a greater minSdkVersion, so for now sticking to old method to get
+         * the access point IP address. */
         int ip = wifiInfo.getIpAddress();
         String contentTitle = "Wi-Fi: " + wifiInfo.getSSID();
         String contentText = String.format("IPv4: %d.%d.%d.%d",
