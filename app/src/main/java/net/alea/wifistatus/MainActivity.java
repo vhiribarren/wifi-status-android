@@ -18,9 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package net.alea.wifistatus;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -79,6 +81,10 @@ public class MainActivity extends Activity {
                 toggleButton.setChecked(false);
                 break;
             default:
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 42);
         }
     }
 
