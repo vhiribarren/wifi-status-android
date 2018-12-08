@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package net.alea.wifistatus;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -108,19 +109,33 @@ public class WifiStateNotification extends BroadcastReceiver {
         Notification notification = null;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            Notification.Builder builder = new Notification.Builder(context)
-                    .setContentIntent(pendingIntent)
-                    .setOngoing(true)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentText(contentText)
-                    .setContentTitle(contentTitle);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                builder.setPriority(Notification.PRIORITY_MIN);
+
+            Notification.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                String CHANNEL_NAME = "default";
+                String CHANNEL_ID = "default";
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_MIN);
+                channel.setDescription(CHANNEL_NAME);
+                NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+                notificationManager.createNotificationChannel(channel);
+                builder = new Notification.Builder(context, CHANNEL_ID)
+                        .setContentIntent(pendingIntent)
+                        .setOngoing(true)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentText(contentText)
+                        .setContentTitle(contentTitle);
                 notification = builder.build();
             }
-            // Condition kept to avoid error in Android Studio without using @TargetApi
-            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                notification = builder.getNotification();
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                builder = new Notification.Builder(context);
+                builder.setPriority(Notification.PRIORITY_MIN);
+                builder = new Notification.Builder(context)
+                        .setContentIntent(pendingIntent)
+                        .setOngoing(true)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentText(contentText)
+                        .setContentTitle(contentTitle);
+                notification = builder.build();
             }
         }
         // For very old Android before 3.x
