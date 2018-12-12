@@ -28,12 +28,14 @@ import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -122,13 +124,18 @@ public class WifiUtils {
         }
         for (NetworkInterface networkInterface : Collections.list(networkInterfaces)) {
             if ( networkInterface.getName().equalsIgnoreCase(WIFI_INTERFACE)) {
-                List<String> addresses = new ArrayList<>();
+                LinkedList<String> addresses = new LinkedList<>();
                 Enumeration<InetAddress> inetAdresses = networkInterface.getInetAddresses();
                 for (InetAddress inetAddress : Collections.list(inetAdresses)) {
-                    addresses.add(inetAddress.getHostAddress());
+                    if (inetAddress instanceof Inet4Address) {
+                        addresses.addFirst(inetAddress.getHostAddress());
+                    }
+                    else {
+                        addresses.add(inetAddress.getHostAddress());
+                    }
                     Log.d(TAG, inetAddress.getHostAddress());
                 }
-                return addresses.toArray(new String[addresses.size()]);
+                return addresses.toArray(new String[0]);
             }
 
         }
