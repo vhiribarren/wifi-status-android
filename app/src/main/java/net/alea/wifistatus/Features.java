@@ -50,4 +50,8 @@ public class Features {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN;
     }
 
+    public static boolean hasNotificationMultiline() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
+    }
+
 }

@@ -95,7 +95,13 @@ public class WifiNotification {
             default:
                 contentTitle += mWifiUtils.getSSID();
         }
-        String contentText = TextUtils.join("\n", mWifiUtils.getWifiAddresses());
+        String contentText;
+        String[] addresses = mWifiUtils.getWifiAddresses();
+        if (Features.hasNotificationMultiline()) {
+            contentText = TextUtils.join("\n", addresses);
+        }  else {
+            contentText = addresses.length != 0 ? "IP: "+addresses[0] : "<no IP addresses>";
+        }
         Intent activityIntent = new Intent(mContext, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, activityIntent, 0);
         Notification notification = null;
@@ -137,6 +143,9 @@ public class WifiNotification {
                 .setContentTitle(contentTitle);
         if (Features.hasNotificationPriority()) {
             builder.setPriority(Notification.PRIORITY_MIN);
+        }
+        if (Features.hasNotificationMultiline()) {
+            builder.setStyle(new Notification.BigTextStyle().bigText(contentText));
         }
         if (Features.requiresDeprecatedNotificationBuilder()) {
             notification = builder.getNotification();
