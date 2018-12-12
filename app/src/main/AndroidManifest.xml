@@ -4,6 +4,7 @@
     package="net.alea.wifistatus" >
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
@@ -22,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".WifiStateNotification">
+        <receiver android:name=".WifiStateReceiver">
             <intent-filter>
                 <action android:name="android.net.wifi.STATE_CHANGE" />
             </intent-filter>

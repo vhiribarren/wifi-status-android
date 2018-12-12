@@ -1,6 +1,6 @@
 /*
 Wifi Status for Android - Check Wifi status in notification bar
-Copyright (C) 2015 Vincent Hiribarren
+Copyright (C) 2018 Vincent Hiribarren
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,7 +22,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -48,8 +47,10 @@ public class MainActivity extends Activity {
         authorText.setMovementMethod(LinkMovementMethod.getInstance());
 
         final ToggleButton toggleButton = (ToggleButton)findViewById(R.id.enableSwitch);
-        final ComponentName receiver = new ComponentName(this, WifiStateNotification.class);
+        final ComponentName receiver = new ComponentName(this, WifiStateReceiver.class);
         final PackageManager pm = this.getPackageManager();
+
+        final WifiNotification wifiNotification = new WifiNotification(this);
 
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -59,13 +60,13 @@ public class MainActivity extends Activity {
                     pm.setComponentEnabledSetting(receiver,
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP);
-                    WifiStateNotification.refreshWifiNotification(MainActivity.this);
+                    wifiNotification.refresh();
                 }
                 else {
                     pm.setComponentEnabledSetting(receiver,
                             PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                             PackageManager.DONT_KILL_APP);
-                    WifiStateNotification.removeWifiNotification(MainActivity.this);
+                    wifiNotification.refresh();
                 }
             }
         });
@@ -74,7 +75,7 @@ public class MainActivity extends Activity {
         switch (componentState) {
             case PackageManager.COMPONENT_ENABLED_STATE_DEFAULT:
             case PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
-                WifiStateNotification.refreshWifiNotification(this);
+                wifiNotification.refresh();
                 toggleButton.setChecked(true);
                 break;
             case PackageManager.COMPONENT_ENABLED_STATE_DISABLED:
@@ -83,7 +84,7 @@ public class MainActivity extends Activity {
             default:
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Features.requiresLocationPermission()) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 42);
         }
     }
