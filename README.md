@@ -1,3 +1,15 @@
+---
+
+# Disclaimer
+
+Stopping development here. Impossible to make it works like that after API Level 25.
+The whole purpose of this app was to only use broadcast receivers. Since API level 26,
+that is just not possible any more.
+
+Also removing the app from the PlayStore.
+
+---
+
 # Wifi Status for Android
 
 This app displays in the notification bar the current Wi-Fi access point.
@@ -16,10 +28,6 @@ From a developer point of view, the app also demonstrates:
 - how to not display the icon of the notification in the status bar
 - no service needed to monitor and react to wifi connections change
 - how to check Android API level
-
-## Play Store
-
-For test, easiness and courtesy, [the app is available on the Play Store](https://play.google.com/store/apps/details?id=net.alea.wifistatus).
 
 ## License and author
 
