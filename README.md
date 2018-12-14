@@ -1,5 +1,15 @@
 # Wifi Status for Android
 
+---
+
+## Disclaimer
+
+Stopping development here. Impossible to make it works like that after API Level 25.
+The whole purpose of this app was to only use broadcast receivers. Since API level 26,
+that is just not possible any more.
+
+---
+
 This app displays in the notification bar the current Wi-Fi access point.
 
 With modern Android (Lollipop and above version) it is not very useful since the information is
