@@ -1,6 +1,6 @@
 ---
 
-# Disclaimer
+# Deprecation notice
 
 Stopping development here. Impossible to make it works like that after API Level 25.
 The whole purpose of this app was to only use broadcast receivers. Since API level 26,
